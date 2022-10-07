@@ -13,11 +13,11 @@ var cookie_parser = function() {
 
         var value_of_consent = split[1]; //take the value of the key
         
-        var value_of_consent_trim = value_of_consent.trim()
+        var value_of_consent_trim = value_of_consent.trim() //remove whitespace
   
         console.log(value_of_consent_trim)
   
-        var trimmed = value_of_consent.slice(0, -1)
+        var trimmed = value_of_consent.slice(0, -1) //remove the last empty character from the string
         
         if(trimmed === "fals"){
           var value = "false"}else{
@@ -26,7 +26,7 @@ var cookie_parser = function() {
 
         var expirationTime = 2592000 * 1000; // One month in seconds
 
-        var date = new Date();
+        var date = new Date(); //initialise the date var
 
         var dateTimeNow = date.getTime(); //get the current date
 
@@ -35,10 +35,10 @@ var cookie_parser = function() {
         date = date.toUTCString(); // Converts milliseconds to UTC time string
 
         document.cookie = "marketing" + "=" + value + "; SameSite=None; Secure; expires=" + date + "; path=/; domain=." + location.hostname.replace("/^www\./i", ""); // Sets cookie for all subdomains
-            console.log("success");
+            console.log("success"); //write the cookie 
 
     }
     
-    cookie_parser()
+    cookie_parser() // call the function
   
   </script>
