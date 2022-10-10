@@ -1,6 +1,9 @@
 <script>
 
 
+//var value =  /Marketing:(?= true)/.test(raw_cookies) ; To implement
+        
+        
 var cookie_parser = function() {
 
         var raw_cookies = {{CookieConsent}}; //get cookiebot 1st party cookie
