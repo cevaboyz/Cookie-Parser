@@ -1,47 +1,64 @@
 <script>
 
-
-//var value =  /Marketing:(?= true)/.test(raw_cookies) ; To implement
-        
-        
 var cookie_parser = function() {
 
-        var raw_cookies = {{CookieConsent}}; //get cookiebot 1st party cookie
+    // Obtain the CookieConsent cookie.
+    var raw_cookies = {{CookieConsent}}; 
 
-        var cookiebot_value = raw_cookies.match("marketing+......"); //use regex to extract the section marketing=xx
+    // Use a regular expression to extract the "marketing=..." part of the cookie.
+    var cookiebot_value = raw_cookies.match(/marketing=../); 
 
-        var cookiebot_value = raw_cookies.match("marketing+......")[0]; //select the index 0
+    // If there's a match, proceed.
+    if (cookiebot_value && cookiebot_value.length > 0) {
 
-        var split = cookiebot_value.split(":"); //split the string in key(marketing) and value(true or false)
+        // Split the matched string at the '=' character.
+        var split = cookiebot_value[0].split("=");
 
-        var value_of_consent = split[1]; //take the value of the key
-        
-        var value_of_consent_trim = value_of_consent.trim() //remove whitespace
-  
-        console.log(value_of_consent_trim)
-  
-        var trimmed = value_of_consent.slice(0, -1) //remove the last empty character from the string
-        
-        if(trimmed === "fals"){
-          var value = "false"}else{
-            var value = "true"}
-        
+        // The second part of the split string (i.e., the value after '=') is the value of consent.
+        var value_of_consent = split[1]; 
 
-        var expirationTime = 2592000 * 1000; // One month in seconds
+        // Remove whitespace from the consent value.
+        var value_of_consent_trim = value_of_consent.trim(); 
 
-        var date = new Date(); //initialise the date var
+        // Log the trimmed consent value.
+        console.log(value_of_consent_trim);
 
-        var dateTimeNow = date.getTime(); //get the current date
+        // Determine the value to set in the new cookie.
+        if (value_of_consent_trim === "false") {
+            var value = "false";
+        } else {
+            var value = "true";
+        }
 
-        date.setTime(dateTimeNow + expirationTime); // Sets expiration time (Time now + one month)
+        // Set the expiration time to one month from now (in milliseconds).
+        var expirationTime = 2592000 * 1000; 
 
-        date = date.toUTCString(); // Converts milliseconds to UTC time string
+        // Get the current date.
+        var date = new Date(); 
 
-        document.cookie = "marketing" + "=" + value + "; SameSite=None; Secure; expires=" + date + "; path=/; domain=." + location.hostname.replace("/^www\./i", ""); // Sets cookie for all subdomains
-            console.log("success"); //write the cookie 
+        // Get the current time in milliseconds.
+        var dateTimeNow = date.getTime(); 
 
+        // Set the expiration time of the cookie.
+        date.setTime(dateTimeNow + expirationTime); 
+
+        // Convert the date to a UTC string.
+        date = date.toUTCString(); 
+
+        // Set the "marketing" cookie with the determined value, expiration date, and other attributes.
+        // Remove "www." from the start of the hostname, if present.
+        document.cookie = "marketing=" + value + "; SameSite=None; Secure; expires=" + date + "; path=/; domain=." + location.hostname.replace(/^www\./i, "");
+
+        // Log a success message.
+        console.log("success");
+
+    } else {
+        // If there's no match, log an error message.
+        console.log('No match found for "marketing=.."');
     }
-    
-    cookie_parser() // call the function
-  
-  </script>
+}
+
+// Call the cookie parsing function.
+cookie_parser();
+
+</script>
